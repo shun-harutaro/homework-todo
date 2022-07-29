@@ -7,6 +7,7 @@ import {
     Param,
     Patch, 
 } from '@nestjs/common';
+import { CreateItemDto } from './dto/create-item';
 import { ItemsService } from './items.service';
 import { Item } from './items.model';
 import { itemStatus } from './item-status.enum';
@@ -26,16 +27,8 @@ export class ItemsController {
     }
 
     @Post()
-    create(@Body('id') id: string, @Body('body') body: string): Item {
-        console.log(id);
-        const item = {
-            id,
-            body,
-            status: itemStatus.TODO,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(), 
-        }
-        return this.itemsService.create(item);
+    create(@Body() createItem: CreateItemDto): Item {
+        return this.itemsService.create(createItem);
     }
 
     @Patch(':id')
@@ -43,7 +36,7 @@ export class ItemsController {
         @Param('id') id: string,
         @Body('status') status: itemStatus,
     ): Item {
-        return this.itemsService.updateStatus(id,status);
+        return this.itemsService.updateToDoStatus(id,status);
     }
 
     @Delete(':id')

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { itemStatus } from './item-status.enum';
 import { Item } from './items.model';
+import { CreateItemDto } from './dto/create-item';
 
 @Injectable()
 export class ItemsService {
@@ -14,12 +15,18 @@ export class ItemsService {
         return this.todoItems.find((item) => item.id === id);
     }
 
-    create(item: Item): Item {
+    create(createItem: CreateItemDto): Item {
+        const item = {
+            ...createItem,
+            status: itemStatus.TODO,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+        };
         this.todoItems.push(item);
         return item;
     }
 
-    updateStatus(id: string, status: itemStatus): Item {
+    updateToDoStatus(id: string, status: itemStatus): Item {
         const targetItem = this.findById(id);
         targetItem.status = status;
         return targetItem;
