@@ -5,7 +5,8 @@ import {
     Post,
     Delete, 
     Param,
-    Patch, 
+    Patch,
+    ParseUUIDPipe, 
 } from '@nestjs/common';
 import { CreateItemDto } from './dto/create-item';
 import { ItemsService } from './items.service';
@@ -33,7 +34,7 @@ export class ItemsController {
 
     @Patch(':id')
     updateToDoStatus(
-        @Param('id') id: string,
+        @Param('id', ParseUUIDPipe) id: string,
         @Body('status') status: itemStatus,
     ): Item {
         return this.itemsService.updateToDoStatus(id,status);

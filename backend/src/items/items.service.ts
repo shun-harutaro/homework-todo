@@ -1,3 +1,4 @@
+import { v4 as uuid } from 'uuid';
 import { Injectable } from '@nestjs/common';
 import { itemStatus } from './item-status.enum';
 import { Item } from './items.model';
@@ -17,6 +18,7 @@ export class ItemsService {
 
     create(createItem: CreateItemDto): Item {
         const item = {
+            id: uuid(),
             ...createItem,
             status: itemStatus.TODO,
             createdAt: new Date().toISOString(),
